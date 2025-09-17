@@ -5,16 +5,19 @@ from datetime import datetime
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[
-        DataRequired(), 
+        DataRequired(),
         Length(min=4, max=20, message="Username must be between 4 and 20 characters")
     ])
     email = StringField('Email', validators=[DataRequired(), Email()])
+    budget = FloatField('Monthly Budget (Optional)', validators=[
+        NumberRange(min=0, message="Budget must be a positive number")
+    ])
     password = PasswordField('Password', validators=[
-        DataRequired(), 
+        DataRequired(),
         Length(min=6, message="Password must be at least 6 characters long")
     ])
     password2 = PasswordField('Repeat Password', validators=[
-        DataRequired(), 
+        DataRequired(),
         EqualTo('password', message="Passwords must match")
     ])
 

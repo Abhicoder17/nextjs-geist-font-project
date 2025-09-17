@@ -31,6 +31,19 @@
                 <p class="stat-value">{{ category_data|length }}</p>
             </div>
         </div>
+        <div class="stat-card">
+            <div class="stat-icon">💰</div>
+            <div class="stat-content">
+                <h3>Available Amount</h3>
+                <p class="stat-value">
+                    {% if available_amount is not none %}
+                        ${{ "%.2f"|format(available_amount) }}
+                    {% else %}
+                        Not set
+                    {% endif %}
+                </p>
+            </div>
+        </div>
     </div>
 
     {% if chart_url %}
@@ -80,6 +93,13 @@
                     </tr>
                     {% endfor %}
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3"><strong>Total (Displayed)</strong></td>
+                        <td class="amount"><strong>${{ "%.2f"|format(total_displayed) }}</strong></td>
+                        <td></td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
         {% else %}

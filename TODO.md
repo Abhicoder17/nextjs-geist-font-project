@@ -1,3 +1,6 @@
-- [x] Create src/app/layout.tsx to import Geist fonts and set up HTML structure
-- [x] Create src/app/page.tsx with basic content
-- [x] Run npm run dev to test the application
+- [x] Add budget field to User model in models.py
+- [x] Add budget field to RegistrationForm in forms.py
+- [x] Update register route in app.py to save budget
+- [x] Update index route in app.py to calculate available_amount
+- [x] Add available amount stat-card to index.html
+- [x] Test the changes by running the app

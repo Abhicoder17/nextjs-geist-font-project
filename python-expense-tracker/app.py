@@ -30,9 +30,10 @@ with app.app_context():
 def index():
     # Get user's expenses
     expenses = Expense.query.filter_by(user_id=current_user.id).order_by(Expense.date.desc()).limit(10).all()
-    
+
     # Calculate summary statistics
     total_expenses = db.session.query(db.func.sum(Expense.amount)).filter_by(user_id=current_user.id).scalar() or 0
+    total_displayed = sum(e.amount for e in expenses)
     
     # Get expenses for current month
     current_month = datetime.now().replace(day=1)
@@ -47,11 +48,18 @@ def index():
         db.func.sum(Expense.amount)
     ).filter_by(user_id=current_user.id).group_by(Expense.category).all()
 
+    # Calculate available amount (budget - total expenses)
+    available_amount = None
+    if current_user.budget is not None:
+        available_amount = current_user.budget - total_expenses
+
     return render_template('index.html',
                          expenses=expenses,
                          total_expenses=total_expenses,
+                         total_displayed=total_displayed,
                          monthly_expenses=monthly_expenses,
-                         category_data=category_data)
+                         category_data=category_data,
+                         available_amount=available_amount)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -69,7 +77,7 @@ def register():
             flash('Username or email already exists. Please choose different ones.', 'error')
             return render_template('register.html', form=form)
         
-        user = User(username=form.username.data, email=form.email.data)
+        user = User(username=form.username.data, email=form.email.data, budget=form.budget.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
