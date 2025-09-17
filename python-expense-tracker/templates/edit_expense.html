@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Expense{% endblock %}
+
+{% block content %}
+<h2>Edit Expense</h2>
+<form method="POST" action="{{ url_for('edit_expense', expense_id=expense.id) }}">
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.description.label }}<br>
+        {{ form.description(size=32) }}<br>
+        {% for error in form.description.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.amount.label }}<br>
+        {{ form.amount() }}<br>
+        {% for error in form.amount.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.category.label }}<br>
+        {{ form.category() }}<br>
+        {% for error in form.category.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.date.label }}<br>
+        {{ form.date() }}<br>
+        {% for error in form.date.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p><input type="submit" value="Update Expense"></p>
+</form>
+{% endblock %}
