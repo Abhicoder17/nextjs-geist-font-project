@@ -1,0 +1,3 @@
+- [x] Create src/app/layout.tsx to import Geist fonts and set up HTML structure
+- [x] Create src/app/page.tsx with basic content
+- [x] Run npm run dev to test the application
