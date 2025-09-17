@@ -3,11 +3,6 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from config import Config
 from models import db, User, Expense
 from forms import RegistrationForm, LoginForm, ExpenseForm
-import matplotlib
-matplotlib.use('Agg')  # Use non-interactive backend
-import matplotlib.pyplot as plt
-import io
-import base64
 from datetime import datetime, timedelta
 from collections import defaultdict
 import os
@@ -48,19 +43,15 @@ def index():
     
     # Category breakdown
     category_data = db.session.query(
-        Expense.category, 
+        Expense.category,
         db.func.sum(Expense.amount)
     ).filter_by(user_id=current_user.id).group_by(Expense.category).all()
-    
-    # Generate charts
-    chart_url = generate_expense_chart(current_user.id)
-    
-    return render_template('index.html', 
+
+    return render_template('index.html',
                          expenses=expenses,
                          total_expenses=total_expenses,
                          monthly_expenses=monthly_expenses,
-                         category_data=category_data,
-                         chart_url=chart_url)
+                         category_data=category_data)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
